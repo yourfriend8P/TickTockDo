@@ -1,29 +1,22 @@
-import { useState, useRef, useEffect } from "react";
-import lofi from "../../assets/Lofi.mp3";
+import { useState, useEffect } from "react";
+import audio from "../../shared/musicPlayer";
 
 export default function MusicPlayer() {
-  const [playing, setPlaying] = useState(false);
-  const [volume, setVolume] = useState(0.3);
-  const audioRef = useRef(new Audio(lofi));
+  const [playing, setPlaying] = useState(!audio.paused);
+  const [volume, setVolume] = useState(audio.volume);
 
   useEffect(() => {
-    audioRef.current.loop = true;
-    audioRef.current.volume = volume;
-  }, []);
-
-  useEffect(() => {
-    audioRef.current.volume = volume;
+    audio.volume = volume;
   }, [volume]);
 
   function togglePlay() {
     if (playing) {
-      audioRef.current.pause();
+      audio.pause();
     } else {
-      audioRef.current.play();
+      audio.play();
     }
     setPlaying(!playing);
   }
-
   return (
     <div
       className="font-pixel fixed bottom-4 left-4 z-50 flex flex-col gap-2"
