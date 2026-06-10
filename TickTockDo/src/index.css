@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@theme {
+  --font-pixel-2: "VT323", monospace;
+  --font-pixel: "Jersey 15", sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.todo-input::placeholder {
+  color: #9b7333;
+  text-shadow: none;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+}
+
+.task-enter {
+  animation: slideIn 0.3s ease forwards;
+}
