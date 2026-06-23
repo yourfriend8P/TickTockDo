@@ -6,9 +6,16 @@ import { useState, useEffect } from "react";
 import Popup from "../components/todo/Popup";
 import MusicPlayer from "../components/shared/MusicPlayer";
 import { useNavigate } from "react-router-dom";
+import buttonPress from "../assets/ButtonPress.mp3";
+
+const audio = new Audio(buttonPress);
+audio.preload = "auto";
 
 function App() {
-
+  function playSound() {
+    audio.currentTime = 0;
+    audio.play();
+  }
   const navigate = useNavigate();
 
   const [tasks, setTasks] = useState(() => {
@@ -116,21 +123,25 @@ function App() {
   return (
     <div className="flex flex-col justify-center">
       <button
-  onClick={() => navigate("/pomodoro")}
-  className="font-pixel text-[14px] cursor-pointer fixed top-4 left-4 z-50" 
-  style={{
-    width: "150px",
-    padding: "8px 16px",
-    border: "3px solid #926454",
-    borderRadius: "8px",
-    background: "#E8CFA7",
-    color: "white",
-    textShadow: "1px 1px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000",
-    boxShadow: "0px 4px 6px rgba(0,0,0,0.3)",
-  }}
->
-  Switch To Pomodoro
-</button>
+        onClick={() => {
+          playSound();
+          navigate("/pomodoro");
+        }}
+        className="font-pixel text-[14px] cursor-pointer fixed top-4 left-4 z-50"
+        style={{
+          width: "150px",
+          padding: "8px 16px",
+          border: "3px solid #926454",
+          borderRadius: "8px",
+          background: "#E8CFA7",
+          color: "white",
+          textShadow:
+            "1px 1px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000",
+          boxShadow: "0px 4px 6px rgba(0,0,0,0.3)",
+        }}
+      >
+        Switch To Pomodoro
+      </button>
       {showConfirm && (
         <Popup
           message={popupMessages[confirmAction]}

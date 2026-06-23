@@ -1,6 +1,29 @@
 import { useState, useEffect, useRef } from "react";
+import ButtonPress from "../../assets/ButtonPress.mp3";
+import timerStart from "../../assets/timerStart.mp3";
+import timerStop from "../../assets/timerStop.mp3";
+
+const audio = new Audio(ButtonPress);
+const audio2 = new Audio(timerStart);
+const audio3 = new Audio(timerStop);
+audio.preload = "auto";
+audio2.preload = "auto";
+audio3.preload = "auto";
 
 function Timer() {
+  function playSound() {
+    audio.currentTime = 0;
+    audio.play();
+  }
+  function playTimerStart() {
+    audio2.currentTime = 0;
+    audio2.play();
+  }
+  function playTimerStop() {
+    audio3.currentTime = 0;
+    audio3.play();
+  }
+
   const MODES = {
     pomodoro: { label: "Focus", minutes: 25 },
     short: { label: "Short Break", minutes: 5 },
@@ -25,8 +48,10 @@ function Timer() {
       intervalRef.current = setInterval(() => {
         setSeconds((s) => {
           if (s <= 1) {
+            playTimerStop();
             clearInterval(intervalRef.current);
             setRunning(false);
+            setMode("pomodoro");
             return 0;
           }
           return s - 1;
@@ -80,7 +105,10 @@ function Timer() {
         {Object.entries(MODES).map(([key, val]) => (
           <button
             key={key}
-            onClick={() => setMode(key)}
+            onClick={() => {
+              playSound();
+              setMode(key);
+            }}
             className="font-pixel text-[24px]"
             style={buttonStyle(mode === key)}
           >
@@ -106,14 +134,20 @@ function Timer() {
       {/* Controls */}
       <div className="flex gap-3">
         <button
-          onClick={() => setRunning(!running)}
+          onClick={() => {
+            setRunning(!running);
+            running ? "" : playTimerStart();
+          }}
           className="font-pixel text-[24px]"
           style={buttonStyle(running)}
         >
           {running ? "Pause" : "Start"}
         </button>
         <button
-          onClick={reset}
+          onClick={() => {
+            reset();
+            playSound();
+          }}
           className="font-pixel text-[24px]"
           style={buttonStyle(false)}
         >

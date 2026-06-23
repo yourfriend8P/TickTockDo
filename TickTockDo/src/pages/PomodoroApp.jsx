@@ -8,8 +8,15 @@ import ItemBox from "../components/pomodoro/ItemBox";
 import KebabMenu from "../components/pomodoro/Menu";
 import Popup from "../components/pomodoro/Popup";
 import { useNavigate } from "react-router-dom";
+import buttonPress from "../assets/ButtonPress.mp3";
 
+const audio = new Audio(buttonPress);
+audio.preload = "auto";
 function App() {
+  function playSound() {
+    audio.currentTime = 0;
+    audio.play();
+  }
   const navigate = useNavigate();
 
   const [input, setInput] = useState("");
@@ -89,20 +96,24 @@ function App() {
   return (
     <div className="flex flex-col justify-center items-center gap-8">
       <button
-        onClick={() => navigate("/todo")}
-        className="font-pixel text-[14px] cursor-pointer fixed top-4 left-4 z-50" 
+        onClick={() => {
+          playSound();
+          navigate("/todo");
+        }}
+        className="font-pixel text-[14px] cursor-pointer fixed top-4 left-4 z-50"
         style={{
           padding: "8px 16px",
           border: "3px solid #926454",
           borderRadius: "8px",
           background: "#E8CFA7",
           color: "white",
-          textShadow: "1px 1px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000",
+          textShadow:
+            "1px 1px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000",
           boxShadow: "0px 4px 6px rgba(0,0,0,0.3)",
         }}
       >
-  Switch To Todo
-</button>
+        Switch To Todo
+      </button>
       {showConfirm && (
         <Popup
           message={popupMessages[confirmAction]}

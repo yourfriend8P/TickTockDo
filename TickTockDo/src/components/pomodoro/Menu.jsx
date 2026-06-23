@@ -1,6 +1,14 @@
 import { useState, useRef, useEffect } from "react";
+import ButtonPress from "../../assets/ButtonPress.mp3";
+
+const audio = new Audio(ButtonPress);
+audio.preload = "auto";
 
 function KebabMenu({ options }) {
+  function playSound() {
+    audio.currentTime = 0;
+    audio.play();
+  }
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -19,7 +27,10 @@ function KebabMenu({ options }) {
     <div className="relative" ref={menuRef}>
       {/* 3 dot button */}
       <button
-        onClick={() => setOpen(!open)}
+        onClick={() => {
+          playSound();
+          setOpen(!open);
+        }}
         className="font-pixel text-[20px] cursor-pointer flex items-center justify-center"
         style={{
           width: "36px",
@@ -53,6 +64,7 @@ function KebabMenu({ options }) {
             <button
               key={opt.label}
               onClick={() => {
+                playSound();
                 opt.onClick();
                 setOpen(false);
               }}
