@@ -51,7 +51,8 @@ function Timer() {
             playTimerStop();
             clearInterval(intervalRef.current);
             setRunning(false);
-            setMode("pomodoro");
+            if (mode == "pomodoro") setMode("short");
+            else setMode("pomodoro");
             return 0;
           }
           return s - 1;
